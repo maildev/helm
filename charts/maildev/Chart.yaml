@@ -1,0 +1,23 @@
+apiVersion: v2
+name: maildev
+version: 0.1.1
+appVersion: 1.1.0
+type: application
+description: SMTP Server + Web Interface for viewing and testing emails during development.
+keywords:
+- maildev
+- smtp
+- nodemailer
+- smtp-server
+- mailcatcher
+- testing
+- development
+- developer-tools
+- nodejs
+home: https://maildev.github.io/maildev/
+icon: https://avatars1.githubusercontent.com/u/26743469
+sources:
+- https://github.com/maildev/helm
+maintainers:
+- name: splitt3r
+  email: splitt3r@users.noreply.github.com

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: maildev-relay-rules
+  labels:
+    {{- include "maildev.labels" . | nindent 4 }}
+data:
+  auto-relay-rules.json: "[\n\t{ \"allow\": \"*\" }\n]\n"
