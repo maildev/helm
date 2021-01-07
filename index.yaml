@@ -3,6 +3,36 @@ entries:
   maildev:
   - apiVersion: v2
     appVersion: 1.1.0
+    created: "2021-01-07T15:58:14.203483343Z"
+    description: SMTP Server + Web Interface for viewing and testing emails during
+      development.
+    digest: 141d7870195c244d69816df8c9047f2578646ab869a7ccaaaa5b74043128da38
+    home: https://maildev.github.io/maildev/
+    icon: https://avatars1.githubusercontent.com/u/26743469
+    keywords:
+    - maildev
+    - smtp
+    - nodemailer
+    - smtp-server
+    - mailcatcher
+    - testing
+    - development
+    - developer-tools
+    - nodejs
+    maintainers:
+    - email: jtudelag@users.noreply.github.com
+      name: jtudelag
+    - email: splitt3r@users.noreply.github.com
+      name: splitt3r
+    name: maildev
+    sources:
+    - https://github.com/maildev/helm
+    type: application
+    urls:
+    - https://github.com/splitt3r/helm/releases/download/maildev-0.1.2/maildev-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.1.0
     created: "2021-01-07T12:29:35.621700469Z"
     description: SMTP Server + Web Interface for viewing and testing emails during
       development.
