@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: smtp-{{ include "maildev.fullname" . }}
+  name: {{ include "maildev.fullname" . }}-smtp
   labels:
     {{- include "maildev.labels" . | nindent 4 }}
 spec:

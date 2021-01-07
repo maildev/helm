@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: maildev-relay-rules
+  name: {{ include "maildev.fullname" . }}-relay-rules
   labels:
     {{- include "maildev.labels" . | nindent 4 }}
 data:

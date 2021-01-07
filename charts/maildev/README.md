@@ -1,19 +1,20 @@
 # SMTP relay service
+
 This helm-chart installs [MailDev](https://github.com/maildev/maildev).
 
-Its mainly usage is to provide with a SMTP relay service inside Kubernetes,
+Its mainl usage is to provide you with a SMTP relay service inside Kubernetes,
 so other apps can rely on it to send mails externally.
 
-Inside the Namespace where it is deployed, an SMTP service is available: `smtp-maildev:1025`.
+Inside the Namespace where it is deployed, an SMTP service is available: `maildev-smtp:1025`.
 
 MailDev also provides a Web interface, it can be disabled/enabled at discretion.
-By default it exposed at a route.
 
 Also note that mails do not persist after reboot. Everytime MailDev starts, it starts from scratch,
 even if the `/tmp/maildev` folder, where MailDev stores mails, is persisted.
 
 ## Sources code
-MailDev source code can be here: https://github.com/maildev/maildev
+
+MailDev source code can be found here: https://github.com/maildev/maildev.
 
 ## Known issue with Env Vars
 
@@ -68,32 +69,27 @@ EOF
 
 Send the mail with curl:
 ```bash
-apk add --no-cache curl && curl smtp://smtp-maildev:1025 --mail-from test@maildev.com --mail-rcpt niko@tesla.com --upload-file ./mail.txt
+apk add --no-cache curl && curl smtp://maildev-smtp:1025 --mail-from test@maildev.com --mail-rcpt niko@tesla.com --upload-file ./mail.txt
 ```
 
 Check the logs and see if the mail has been delivered.
 ```bash
 kubectl logs $(kubectl get pod -l "app.kubernetes.io/instance=maildev" -o name)
 ```
-Output:
+Output should be sth. like:
 ```bash
 Temporary directory created at /tmp/maildev
 Temporary directory created at /tmp/maildev/1
-MailDev outgoing SMTP Server smtp.gmail.com:465 (user:test@example.com, pass:####, secure:yes)
+MailDev outgoing SMTP Server smtp.gmail.com:465 (user:test@example.com, pass:******, secure:yes)
 Auto-Relay mode on
 MailDev webapp running at http://0.0.0.0:1080
 MailDev SMTP Server running at 0.0.0.0:1025
 Saving email: Test mail from maildev, id: 3ZhYnk5q
-MailDev outgoing SMTP Server smtp.gmail.com:465 (user:test@example.com, pass:####, secure:yes)
+MailDev outgoing SMTP Server smtp.gmail.com:465 (user:test@example.com, pass:******, secure:yes)
 Mail Delivered:  Test mail from maildev
 ```
 
-Alternatively you can check the logs.
-```bash
-kubectl get route web-maildev -o=jsonpath='{.spec.host}'
-```
-
-Or forward your local port to the pod.
+Alternatively forward your local port to the pod.
 ```bash
 kubectl port-forward $(kubectl get pod -l "app.kubernetes.io/instance=maildev" -o name) 1080
 ```

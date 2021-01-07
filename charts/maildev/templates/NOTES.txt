@@ -1,1 +1,11 @@
-# Sources code here: https://github.com/maildev/maildev
+{{- if contains "ClusterIP" .Values.service.type }}
+
+  echo http://127.0.0.1:1080/
+  kubectl port-forward $(kubectl get pod -l "app.kubernetes.io/instance=maildev" -o name) 1080:1080
+
+{{- else }}
+
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+        Watch the status with: 'kubectl get svc --namespace {{ .Release.Namespace }} -w {{ include "maildev.fullname" . }}'
+
+{{- end }}

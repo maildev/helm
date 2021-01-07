@@ -1,6 +1,6 @@
 apiVersion: v2
 name: maildev
-version: 0.1.1
+version: 0.1.2
 appVersion: 1.1.0
 type: application
 description: SMTP Server + Web Interface for viewing and testing emails during development.
@@ -19,5 +19,7 @@ icon: https://avatars1.githubusercontent.com/u/26743469
 sources:
 - https://github.com/maildev/helm
 maintainers:
+- name: jtudelag
+  email: jtudelag@users.noreply.github.com
 - name: splitt3r
   email: splitt3r@users.noreply.github.com
