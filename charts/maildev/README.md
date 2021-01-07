@@ -4,7 +4,7 @@ This helm-chart installs [MailDev](https://github.com/maildev/maildev).
 Its mainly usage is to provide with a SMTP relay service inside Kubernetes,
 so other apps can rely on it to send mails externally.
 
-Inside the Namespace where it is deployed, an SMTP service is available: `smtp:25`.
+Inside the Namespace where it is deployed, an SMTP service is available: `smtp-maildev:1025`.
 
 MailDev also provides a Web interface, it can be disabled/enabled at discretion.
 By default it exposed at a route.
@@ -49,7 +49,7 @@ Not listing here the more general paramaters such as tolerations, nodeSelectors,
 
 Open a shell into the pod.
 ```bash
-kubectl exec --stdin --tty $(kubectl get pod -l "app.kubernetes.io/instance=maildev" -o name) -- /bin/bash
+kubectl exec --stdin --tty $(kubectl get pod -l "app.kubernetes.io/instance=maildev" -o name) -- sh
 ```
 
 Create dummy mail.txt file.
@@ -68,7 +68,7 @@ EOF
 
 Send the mail with curl:
 ```bash
-curl smtp://smtp:25 --mail-from test@maildev.com --mail-rcpt niko@tesla.com --upload-file ./mail.txt
+apk add --no-cache curl && curl smtp://smtp-maildev:1025 --mail-from test@maildev.com --mail-rcpt niko@tesla.com --upload-file ./mail.txt
 ```
 
 Check the logs and see if the mail has been delivered.
@@ -88,9 +88,14 @@ MailDev outgoing SMTP Server smtp.gmail.com:465 (user:test@example.com, pass:###
 Mail Delivered:  Test mail from maildev
 ```
 
-Alternatively you can check the webconsole.
+Alternatively you can check the logs.
 ```bash
 kubectl get route web-maildev -o=jsonpath='{.spec.host}'
+```
+
+Or forward your local port to the pod.
+```bash
+kubectl port-forward $(kubectl get pod -l "app.kubernetes.io/instance=maildev" -o name) 1080
 ```
 
 Check your mail inbox ;)
