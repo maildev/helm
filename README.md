@@ -7,13 +7,13 @@
 To install the repo just run:
 
 ```bash
-helm repo add maildev https://maildev.github.io/helm/
+helm repo add maildev https://splitt3r.github.io/helm/
 helm repo update
 ```
 
 ## Helm Charts
 
-* [maildev](https://maildev.github.io/helm/)
+* [maildev](https://splitt3r.github.io/helm/)
 
   ```bash
   helm install my-release maildev/maildev
