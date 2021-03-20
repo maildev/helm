@@ -96,7 +96,7 @@ spec:
       volumes:
       - name: auto-relay-rules
         configMap:
-          name: maildev-relay-rules
+          name: {{ include "maildev.fullname" . }}-relay-rules
           items:
           - key: auto-relay-rules.json
             path: auto-relay-rules.json
