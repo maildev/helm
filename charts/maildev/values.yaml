@@ -4,25 +4,32 @@ image:
   repository: maildev/maildev
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 1.1.0
+  tag: 2.0.0-beta3
 
-outgoing_relay:
-  # MAILDEV_OUTGOING_HOST
-  host: smtp.gmail.com
-   # MAILDEV_OUTGOING_PORT
-  port: 465
-   # MAILDEV_OUTGOING_USER
-  user: 'XXX'
-   # MAILDEV_OUTGOING_PASS
-  pass: 'YYY'
-  # MAILDEV_OUTGOING_SECURE
-  secure: true
+verbose: false
 
-incoming:
-  # MAILDEV_INCOMING_USER
-  # user:
-  # MAILDEV_INCOMING_PASS
-  # pass:
+outgoingRelay:
+  # # MAILDEV_OUTGOING_HOST
+  # host: smtp.gmail.com
+  # # MAILDEV_OUTGOING_PORT
+  # port: 465
+  # # MAILDEV_OUTGOING_USER
+  # user: 'XXX'
+  # # MAILDEV_OUTGOING_PASS
+  # pass: 'YYY'
+  # secure: false
+  autoRelay:
+    enabled: false
+    # MAILDEV_AUTO_RELAY
+    # receiver: test
+    rules:
+      - allow: '*'
+
+incoming: {}
+  # # MAILDEV_INCOMING_USER
+  #  user:
+  # # MAILDEV_INCOMING_PASS
+  #  pass:
 
 ports:
   # MAILDEV_SMTP_PORT
@@ -30,22 +37,21 @@ ports:
   # MAILDEV_WEB_PORT
   web: 1080
 
-# MAILDEV_HTTPS
+## MAILDEV_HTTPS
 https:
   enabled: false
-  # MAILDEV_HTTPS_KEY
+  # # MAILDEV_HTTPS_KEY
   # key:
-  # MAILDEV_HTTPS_KEY
+  # # MAILDEV_HTTPS_KEY
   # cert:
 
 # Web interface
 web:
-  # MAILDEV_DISABLE_WEB
   disable: false
-  # MAILDEV_WEB_USER
-  user: admin
-  # MAILDEV_WEB_PASS
-  pass: admin
+  # # MAILDEV_WEB_USER
+  # user: admin
+  # # MAILDEV_WEB_PASS
+  # pass: admin
 
 imagePullSecrets: []
 nameOverride: ""

@@ -11,10 +11,11 @@ spec:
       {{- include "maildev.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-    {{- with .Values.podAnnotations }}
       annotations:
+        checksum/cm-auto-relay-rules: {{ include (print $.Template.BasePath "/cm-auto-relay-rules.yaml") . | sha256sum }}
+      {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
-    {{- end }}
+      {{- end }}
       labels:
         {{- include "maildev.selectorLabels" . | nindent 8 }}
     spec:
@@ -30,8 +31,19 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: ["/usr/src/app/bin/maildev"]
-          args: ["--verbose", "--outgoing-secure", "--auto-relay"]
+          args:
+          {{- if .Values.verbose }}
+          - "--verbose"
+          {{- end }}
+          {{- if .Values.outgoingRelay.autoRelay.enabled }}
+          - "--auto-relay"
+          {{- end }}
+          {{- if .Values.outgoingRelay.secure }}
+          - "--outgoing-secure"
+          {{- end }}
+          {{- if .Values.web.disable }}
+          - "--disable-web"
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
           - name: smtp-port
@@ -41,8 +53,6 @@ spec:
             containerPort: {{ .Values.ports.web }}
             protocol: TCP
           env:
-          - name: MAILDEV_DISABLE_WEB
-            value: "{{ .Values.web.disable }}"
           {{- if or .Values.web.user .Values.web.pass}}
           - name: MAILDEV_WEB_USER
             value: "{{ .Values.web.user }}"
@@ -55,24 +65,32 @@ spec:
             value: "{{ .Values.ports.web }}"
           - name: MAILDEV_HTTPS
             value: "{{ .Values.https.enabled }}"
-          {{- if .Values.https.key }}
+          {{- if .Values.https.enabled }}
           - name: MAILDEV_HTTPS_KEY
             value: "{{ .Values.https.key }}"
-          {{- end }}
-          {{- if .Values.https.cert }}
           - name: MAILDEV_HTTPS_CERT
             value:  "{{ .Values.https.cert }}"
           {{- end }}
+          {{- if .Values.outgoingRelay.host }}
           - name: MAILDEV_OUTGOING_HOST
-            value: "{{ .Values.outgoing_relay.host }}"
+            value: "{{ .Values.outgoingRelay.host }}"
+          {{- end }}
+          {{- if .Values.outgoingRelay.port }}
           - name: MAILDEV_OUTGOING_PORT
-            value: "{{ .Values.outgoing_relay.port }}"
+            value: "{{ .Values.outgoingRelay.port }}"
+          {{- end }}
+          {{- if .Values.outgoingRelay.user }}
           - name: MAILDEV_OUTGOING_USER
-            value: "{{ .Values.outgoing_relay.user }}"
+            value: "{{ .Values.outgoingRelay.user }}"
+          {{- end }}
+          {{- if .Values.outgoingRelay.pass }}
           - name: MAILDEV_OUTGOING_PASS
-            value: "{{ .Values.outgoing_relay.pass }}"
-          - name: MAILDEV_OUTGOING_SECURE
-            value: "{{ .Values.outgoing_relay.secure }}"
+            value: "{{ .Values.outgoingRelay.pass }}"
+          {{- end }}
+          {{- if and .Values.outgoingRelay.autoRelay.enabled .Values.outgoingRelay.autoRelay.receiver }}
+          - name: MAILDEV_AUTO_RELAY
+            value: "{{ .Values.outgoingRelay.autoRelay.receiver }}"
+          {{- end }}
           {{- if .Values.incoming }}
           - name: MAILDEV_INCOMING_USER
             value: "{{ .Values.incoming.user }}"
@@ -89,6 +107,7 @@ spec:
               port: {{ .Values.ports.web }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+{{- if .Values.outgoingRelay.autoRelay.enabled }}
           volumeMounts:
           - name: auto-relay-rules
             mountPath: /etc/maildev
@@ -100,6 +119,7 @@ spec:
           items:
           - key: auto-relay-rules.json
             path: auto-relay-rules.json
+{{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
