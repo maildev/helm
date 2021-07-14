@@ -30,11 +30,11 @@ Not listing here the more general paramaters such as tolerations, nodeSelectors,
 
 | Parameter                     | Description                                                                                       | Default                                     |
 |------------------------------:|:--------------------------------------------------------------------------------------------------|:--------------------------------------------|
-| **outgoing_relay.host**       | SMTP Relay host, `MAILDEV_OUTGOING_HOST`.                                                         | ``                                          |
-| **outgoing_relay.port**       | SMTP Relay port, `MAILDEV_OUTGOING_PORT`.                                                         | ``                                          |
-| **outgoing_relay.user**       | SMTP Relay user, `MAILDEV_OUTGOING_USER`.                                                         | ``                                          |
-| **outgoing_relay.pass**       | SMTP Relay password, `MAILDEV_OUTGOING_PASS`.                                                     | ``                                          |
-| **outgoing_relay.secure**     | Use SMTP SSL for outgoing emails, `MAILDEV_OUTGOING_SECURE`.                                      | `true`. Hardcoded in the deployment due to a bug. |
+| **outgoingRelay.host**       | SMTP Relay host, `MAILDEV_OUTGOING_HOST`.                                                         | ``                                          |
+| **outgoingRelay.port**       | SMTP Relay port, `MAILDEV_OUTGOING_PORT`.                                                         | ``                                          |
+| **outgoingRelay.user**       | SMTP Relay user, `MAILDEV_OUTGOING_USER`.                                                         | ``                                          |
+| **outgoingRelay.pass**       | SMTP Relay password, `MAILDEV_OUTGOING_PASS`.                                                     | ``                                          |
+| **outgoingRelay.secure**     | Use SMTP SSL for outgoing emails, `MAILDEV_OUTGOING_SECURE`.                                      | `true`. Hardcoded in the deployment due to a bug. |
 | **ports.smtp**                | Port where the SMTP service is listening. (Irrelevant for OCP/K8S), `MAILDEV_SMTP_PORT`.          | `1025`                                      |
 | **ports.web**                 | Port where the Web interface service is listening. (Irrelevant for OCP/K8S), `MAILDEV_WEB_PORT`.  | `1080`                                      |
 | **web.disable**               | Disable Web interface. `MAILDEV_DISABLE_WEB`.                                                     | `false`                                     |
