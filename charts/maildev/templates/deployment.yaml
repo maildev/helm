@@ -87,9 +87,13 @@ spec:
           - name: MAILDEV_OUTGOING_PASS
             value: "{{ .Values.outgoingRelay.pass }}"
           {{- end }}
-          {{- if and .Values.outgoingRelay.autoRelay.enabled .Values.outgoingRelay.autoRelay.receiver }}
+          {{- if .Values.outgoingRelay.autoRelay.enabled }}
+          - name: MAILDEV_AUTO_RELAY_RULES
+            value: /etc/maildev/auto-relay-rules.json
+          {{- if .Values.outgoingRelay.autoRelay.receiver }}
           - name: MAILDEV_AUTO_RELAY
             value: "{{ .Values.outgoingRelay.autoRelay.receiver }}"
+          {{- end }}
           {{- end }}
           {{- if .Values.incoming }}
           - name: MAILDEV_INCOMING_USER
@@ -111,14 +115,10 @@ spec:
           volumeMounts:
           - name: auto-relay-rules
             mountPath: /etc/maildev
-            subPath: auto-relay-rules.json
       volumes:
       - name: auto-relay-rules
         configMap:
           name: maildev-relay-rules
-          items:
-          - key: auto-relay-rules.json
-            path: auto-relay-rules.json
 {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
