@@ -9,3 +9,10 @@
         Watch the status with: 'kubectl get svc --namespace {{ .Release.Namespace }} -w {{ include "maildev.fullname" . }}'
 
 {{- end }}
+{{- if .Values.ingress.enabled }}
+
+  From outside the cluster, the server URL(s) are:
+{{- range .Values.ingress.hosts }}
+    http://{{ . }}
+{{- end }}
+{{- end }}
