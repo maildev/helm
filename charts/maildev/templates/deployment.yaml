@@ -30,8 +30,12 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: ["/usr/src/app/bin/maildev"]
-          args: ["--verbose", "--outgoing-secure", "--auto-relay"]
+          {{- if .Values.command }}
+          command: {{- toYaml .Values.command | nindent 12 }}
+          {{- end }}
+          {{- if .Values.args }}
+          args: {{- toYaml .Values.args | nindent 12 }}
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
           - name: smtp-port
@@ -41,43 +45,13 @@ spec:
             containerPort: {{ .Values.ports.web }}
             protocol: TCP
           env:
-          - name: MAILDEV_DISABLE_WEB
-            value: "{{ .Values.web.disable }}"
-          {{- if or .Values.web.user .Values.web.pass}}
-          - name: MAILDEV_WEB_USER
-            value: "{{ .Values.web.user }}"
-          - name: MAILDEV_WEB_PASS
-            value: "{{ .Values.web.pass }}"
-          {{- end }}
           - name: MAILDEV_SMTP_PORT
             value: "{{ .Values.ports.smtp }}"
           - name: MAILDEV_WEB_PORT
             value: "{{ .Values.ports.web }}"
-          - name: MAILDEV_HTTPS
-            value: "{{ .Values.https.enabled }}"
-          {{- if .Values.https.key }}
-          - name: MAILDEV_HTTPS_KEY
-            value: "{{ .Values.https.key }}"
-          {{- end }}
-          {{- if .Values.https.cert }}
-          - name: MAILDEV_HTTPS_CERT
-            value:  "{{ .Values.https.cert }}"
-          {{- end }}
-          - name: MAILDEV_OUTGOING_HOST
-            value: "{{ .Values.outgoing_relay.host }}"
-          - name: MAILDEV_OUTGOING_PORT
-            value: "{{ .Values.outgoing_relay.port }}"
-          - name: MAILDEV_OUTGOING_USER
-            value: "{{ .Values.outgoing_relay.user }}"
-          - name: MAILDEV_OUTGOING_PASS
-            value: "{{ .Values.outgoing_relay.pass }}"
-          - name: MAILDEV_OUTGOING_SECURE
-            value: "{{ .Values.outgoing_relay.secure }}"
-          {{- if .Values.incoming }}
-          - name: MAILDEV_INCOMING_USER
-            value: "{{ .Values.incoming.user }}"
-          - name: MAILDEV_INCOMING_PASS
-            value:  "{{ .Values.incoming.pass }}"
+          {{- range $name, $value := .Values.env }}
+          - name: {{ $name }}
+            value: {{ $value }}
           {{- end }}
           livenessProbe:
             httpGet:
