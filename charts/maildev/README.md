@@ -12,39 +12,26 @@ MailDev also provides a Web interface, it can be disabled/enabled at discretion.
 Also note that mails do not persist after reboot. Everytime MailDev starts, it starts from scratch,
 even if the `/tmp/maildev` folder, where MailDev stores mails, is persisted.
 
-## Sources code
+## Source code
 
 MailDev source code can be found here: https://github.com/maildev/maildev.
 
 ## Known issue with Env Vars
 
-GitHub issue: https://github.com/maildev/maildev/issues/315
-
-So, not every option can be configured using env vars, so, a few options are hardcoded in the deployment:
-`["--verbose", "--outgoing-secure", "--auto-relay"]`
+GitHub issue: https://github.com/maildev/maildev/issues/315 . Configure the affected options using **args** instead.
 
 ## Configuration
 
-Table with the most relevant parameters for MailDev.
+Table with the most relevant parameters for MailDev. All other parameters can be configured by either overriding
+the arguments using **args** or by providing and environment variable using **env**. See the [Usage section](https://github.com/maildev/maildev#usage)
+in the MailDev repo for all available options.
+
 Not listing here the more general paramaters such as tolerations, nodeSelectors, etc.
 
-| Parameter                     | Description                                                                                       | Default                                     |
-|------------------------------:|:--------------------------------------------------------------------------------------------------|:--------------------------------------------|
-| **outgoing_relay.host**       | SMTP Relay host, `MAILDEV_OUTGOING_HOST`.                                                         | ``                                          |
-| **outgoing_relay.port**       | SMTP Relay port, `MAILDEV_OUTGOING_PORT`.                                                         | ``                                          |
-| **outgoing_relay.user**       | SMTP Relay user, `MAILDEV_OUTGOING_USER`.                                                         | ``                                          |
-| **outgoing_relay.pass**       | SMTP Relay password, `MAILDEV_OUTGOING_PASS`.                                                     | ``                                          |
-| **outgoing_relay.secure**     | Use SMTP SSL for outgoing emails, `MAILDEV_OUTGOING_SECURE`.                                      | `true`. Hardcoded in the deployment due to a bug. |
-| **ports.smtp**                | Port where the SMTP service is listening. (Irrelevant for OCP/K8S), `MAILDEV_SMTP_PORT`.          | `1025`                                      |
-| **ports.web**                 | Port where the Web interface service is listening. (Irrelevant for OCP/K8S), `MAILDEV_WEB_PORT`.  | `1080`                                      |
-| **web.disable**               | Disable Web interface. `MAILDEV_DISABLE_WEB`.                                                     | `false`                                     |
-| **web.user**                  | Web interface user, `MAILDEV_WEB_USER`.                                                           | `admin`                                     |
-| **web.pass**                  | Web interface password, `MAILDEV_WEB_PASS`.                                                       | ``                                          |
-| **https.enabled**             | Switch from http to https protocol, `MAILDEV_HTTPS`.                                              | `false`                                     |
-| **https.key**                 | The file path to the ssl private key, `MAILDEV_HTTPS_KEY`.                                        |                                             |
-| **https.cert**                | The file path to the ssl cert file, `MAILDEV_HTTPS_CERT`.                                         |                                             |
-| **incoming.user**             | SMTP user for incoming emails, `MAILDEV_INCOMING_USER`.                                           |                                             |
-| **incoming.pass**             | SMTP password for incoming emails, `MAILDEV_INCOMING_PASS`.                                       |                                             |
+| Parameter                     | Description                                                                                       | Default |
+|------------------------------:|:--------------------------------------------------------------------------------------------------|:--------|
+| **ports.smtp**                | Port where the SMTP service is listening. (Irrelevant for OCP/K8S), `MAILDEV_SMTP_PORT`.          | `1025`  |
+| **ports.web**                 | Port where the Web interface service is listening. (Irrelevant for OCP/K8S), `MAILDEV_WEB_PORT`.  | `1080`  |
 
 ## Test it
 

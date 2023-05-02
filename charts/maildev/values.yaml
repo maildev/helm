@@ -3,49 +3,27 @@ replicaCount: 1
 image:
   repository: maildev/maildev
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: 1.1.0
+  # tag: 2.0.5
 
-outgoing_relay:
-  # MAILDEV_OUTGOING_HOST
-  host: smtp.gmail.com
-   # MAILDEV_OUTGOING_PORT
-  port: 465
-   # MAILDEV_OUTGOING_USER
-  user: 'XXX'
-   # MAILDEV_OUTGOING_PASS
-  pass: 'YYY'
-  # MAILDEV_OUTGOING_SECURE
-  secure: true
+# command:
+args:
+- --verbose
 
-incoming:
-  # MAILDEV_INCOMING_USER
-  # user:
-  # MAILDEV_INCOMING_PASS
-  # pass:
+env:
+  # MAILDEV_OUTGOING_HOST: smtp.gmail.com
+  # MAILDEV_OUTGOING_PORT: 465
+  # MAILDEV_OUTGOING_USER: "XXX"
+  # MAILDEV_OUTGOING_PASS: "YYY"
+  # MAILDEV_INCOMING_USER: ""
+  # MAILDEV_INCOMING_PASS: ""
+  # MAILDEV_WEB_USER: "admin"
+  # MAILDEV_WEB_PASS: "admin"
 
 ports:
   # MAILDEV_SMTP_PORT
   smtp: 1025
   # MAILDEV_WEB_PORT
   web: 1080
-
-# MAILDEV_HTTPS
-https:
-  enabled: false
-  # MAILDEV_HTTPS_KEY
-  # key:
-  # MAILDEV_HTTPS_KEY
-  # cert:
-
-# Web interface
-web:
-  # MAILDEV_DISABLE_WEB
-  disable: false
-  # MAILDEV_WEB_USER
-  user: admin
-  # MAILDEV_WEB_PASS
-  pass: admin
 
 imagePullSecrets: []
 nameOverride: ""
