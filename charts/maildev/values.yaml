@@ -9,6 +9,23 @@ image:
 # Enable verbose logging (--verbose).
 verbose: false
 
+# Escape hatches for maildev options this chart does not model directly.
+# See https://github.com/maildev/maildev#usage for all flags/env vars.
+# Extra CLI args appended after the flags the chart generates, e.g.:
+#   extraArgs:
+#     - --hide-extensions
+#     - STARTTLS
+extraArgs: []
+# Extra container env vars, passed through verbatim (supports valueFrom).
+# Quote string/numeric values yourself, e.g.:
+#   extraEnv:
+#     - name: MAILDEV_OUTGOING_PASS
+#       valueFrom:
+#         secretKeyRef:
+#           name: maildev-smtp
+#           key: password
+extraEnv: []
+
 outgoingRelay:
   # # MAILDEV_OUTGOING_HOST
   # host: smtp.gmail.com
