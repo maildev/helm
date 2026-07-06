@@ -1,3 +1,4 @@
+{{- if .Values.outgoingRelay.autoRelay.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -5,4 +6,5 @@ metadata:
   labels:
     {{- include "maildev.labels" . | nindent 4 }}
 data:
-  auto-relay-rules.json: "[\n\t{ \"allow\": \"*\" }\n]\n"
+  auto-relay-rules.json: '{{ .Values.outgoingRelay.autoRelay.rules | toJson }}'
+{{- end -}}

@@ -16,30 +16,27 @@ even if the `/tmp/maildev` folder, where MailDev stores mails, is persisted.
 
 MailDev source code can be found here: https://github.com/maildev/maildev.
 
-## Known issue with Env Vars
-
-GitHub issue: https://github.com/maildev/maildev/issues/315
-
-So, not every option can be configured using env vars, so, a few options are hardcoded in the deployment:
-`["--verbose", "--outgoing-secure", "--auto-relay"]`
-
 ## Configuration
 
 Table with the most relevant parameters for MailDev.
 Not listing here the more general paramaters such as tolerations, nodeSelectors, etc.
 
-| Parameter                     | Description                                                                                       | Default                                     |
-|------------------------------:|:--------------------------------------------------------------------------------------------------|:--------------------------------------------|
-| **outgoing_relay.host**       | SMTP Relay host, `MAILDEV_OUTGOING_HOST`.                                                         | ``                                          |
-| **outgoing_relay.port**       | SMTP Relay port, `MAILDEV_OUTGOING_PORT`.                                                         | ``                                          |
-| **outgoing_relay.user**       | SMTP Relay user, `MAILDEV_OUTGOING_USER`.                                                         | ``                                          |
-| **outgoing_relay.pass**       | SMTP Relay password, `MAILDEV_OUTGOING_PASS`.                                                     | ``                                          |
-| **outgoing_relay.secure**     | Use SMTP SSL for outgoing emails, `MAILDEV_OUTGOING_SECURE`.                                      | `true`. Hardcoded in the deployment due to a bug. |
-| **ports.smtp**                | Port where the SMTP service is listening. (Irrelevant for OCP/K8S), `MAILDEV_SMTP_PORT`.          | `1025`                                      |
-| **ports.web**                 | Port where the Web interface service is listening. (Irrelevant for OCP/K8S), `MAILDEV_WEB_PORT`.  | `1080`                                      |
-| **web.disable**               | Disable Web interface. `MAILDEV_DISABLE_WEB`.                                                     | `false`                                     |
-| **web.user**                  | Web interface user, `MAILDEV_WEB_USER`.                                                           | `admin`                                     |
-| **web.pass**                  | Web interface password, `MAILDEV_WEB_PASS`.                                                       | ``                                          |
+| Parameter                            | Description                                                                                       | Default                                     |
+|-------------------------------------:|:--------------------------------------------------------------------------------------------------|:--------------------------------------------|
+| **verbose**                          | Enable verbose logging, `--verbose`.                                                              | `false`                                     |
+| **outgoingRelay.host**               | SMTP Relay host, `MAILDEV_OUTGOING_HOST`. Only set when defined.                                  | ``                                          |
+| **outgoingRelay.port**               | SMTP Relay port, `MAILDEV_OUTGOING_PORT`. Only set when defined.                                  | ``                                          |
+| **outgoingRelay.user**               | SMTP Relay user, `MAILDEV_OUTGOING_USER`. Only set when defined.                                  | ``                                          |
+| **outgoingRelay.pass**               | SMTP Relay password, `MAILDEV_OUTGOING_PASS`. Only set when defined.                              | ``                                          |
+| **outgoingRelay.secure**             | Use SMTP SSL for outgoing emails, `--outgoing-secure`.                                            | `false`                                     |
+| **outgoingRelay.autoRelay.enabled**  | Relay all incoming emails to the outgoing relay, `--auto-relay`.                                  | `false`                                     |
+| **outgoingRelay.autoRelay.receiver** | Relay to a single receiver instead of the original recipient, `MAILDEV_AUTO_RELAY`.               | ``                                          |
+| **outgoingRelay.autoRelay.rules**    | Auto relay rules rendered to `auto-relay-rules.json`, `MAILDEV_AUTO_RELAY_RULES`.                 | `[{allow: '*'}]`                            |
+| **ports.smtp**                       | Port where the SMTP service is listening. (Irrelevant for OCP/K8S), `MAILDEV_SMTP_PORT`.          | `1025`                                      |
+| **ports.web**                        | Port where the Web interface service is listening. (Irrelevant for OCP/K8S), `MAILDEV_WEB_PORT`.  | `1080`                                      |
+| **web.disable**                      | Disable Web interface, `--disable-web`.                                                           | `false`                                     |
+| **web.user**                         | Web interface user, `MAILDEV_WEB_USER`. Only set when defined.                                    | ``                                          |
+| **web.pass**                         | Web interface password, `MAILDEV_WEB_PASS`. Only set when defined.                               | ``                                          |
 | **https.enabled**             | Switch from http to https protocol, `MAILDEV_HTTPS`.                                              | `false`                                     |
 | **https.key**                 | The file path to the ssl private key, `MAILDEV_HTTPS_KEY`.                                        |                                             |
 | **https.cert**                | The file path to the ssl cert file, `MAILDEV_HTTPS_CERT`.                                         |                                             |
