@@ -23,7 +23,9 @@ Not listing here the more general paramaters such as tolerations, nodeSelectors,
 
 | Parameter                            | Description                                                                                       | Default                                     |
 |-------------------------------------:|:--------------------------------------------------------------------------------------------------|:--------------------------------------------|
-| **verbose**                          | Enable verbose logging, `--verbose`.                                                              | `false`                                     |
+| **verbose**                          | Enable verbose logging, `--verbose`.                                                             | `false`                                     |
+| **extraArgs**                        | Extra CLI args appended after the chart-generated flags, for options not modelled below.         | `[]`                                        |
+| **extraEnv**                         | Extra container env vars (list of `name`/`value` or `valueFrom` entries), for options not modelled below. | `[]`                              |
 | **outgoingRelay.host**               | SMTP Relay host, `MAILDEV_OUTGOING_HOST`. Only set when defined.                                  | ``                                          |
 | **outgoingRelay.port**               | SMTP Relay port, `MAILDEV_OUTGOING_PORT`. Only set when defined.                                  | ``                                          |
 | **outgoingRelay.user**               | SMTP Relay user, `MAILDEV_OUTGOING_USER`. Only set when defined.                                  | ``                                          |

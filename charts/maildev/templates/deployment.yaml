@@ -44,6 +44,9 @@ spec:
           {{- if .Values.web.disable }}
           - "--disable-web"
           {{- end }}
+          {{- with .Values.extraArgs }}
+          {{- toYaml . | nindent 10 }}
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
           - name: smtp-port
@@ -100,6 +103,9 @@ spec:
             value: "{{ .Values.incoming.user }}"
           - name: MAILDEV_INCOMING_PASS
             value:  "{{ .Values.incoming.pass }}"
+          {{- end }}
+          {{- with .Values.extraEnv }}
+          {{- toYaml . | nindent 10 }}
           {{- end }}
           livenessProbe:
             httpGet:
