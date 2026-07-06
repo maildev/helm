@@ -4,24 +4,35 @@ image:
   repository: maildev/maildev
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 1.1.0
+  tag: ""
 
-outgoing_relay:
-  # MAILDEV_OUTGOING_HOST
-  host: smtp.gmail.com
-   # MAILDEV_OUTGOING_PORT
-  port: 465
-   # MAILDEV_OUTGOING_USER
-  user: 'XXX'
-   # MAILDEV_OUTGOING_PASS
-  pass: 'YYY'
-  # MAILDEV_OUTGOING_SECURE
-  secure: true
+# Enable verbose logging (--verbose).
+verbose: false
 
-incoming:
-  # MAILDEV_INCOMING_USER
+outgoingRelay:
+  # # MAILDEV_OUTGOING_HOST
+  # host: smtp.gmail.com
+  # # MAILDEV_OUTGOING_PORT
+  # port: 465
+  # # MAILDEV_OUTGOING_USER
+  # user: 'XXX'
+  # # MAILDEV_OUTGOING_PASS
+  # pass: 'YYY'
+  # Use SMTP SSL for outgoing emails (--outgoing-secure).
+  secure: false
+  autoRelay:
+    # Relay all incoming emails to the outgoing SMTP relay (--auto-relay).
+    enabled: false
+    # Relay to a single receiver instead of the original recipient, MAILDEV_AUTO_RELAY.
+    # receiver: test@example.com
+    # Auto relay rules, rendered to the auto-relay-rules.json config file.
+    rules:
+      - allow: '*'
+
+incoming: {}
+  # # MAILDEV_INCOMING_USER
   # user:
-  # MAILDEV_INCOMING_PASS
+  # # MAILDEV_INCOMING_PASS
   # pass:
 
 ports:
@@ -40,12 +51,12 @@ https:
 
 # Web interface
 web:
-  # MAILDEV_DISABLE_WEB
+  # Disable the web interface (--disable-web).
   disable: false
-  # MAILDEV_WEB_USER
-  user: admin
-  # MAILDEV_WEB_PASS
-  pass: admin
+  # # MAILDEV_WEB_USER
+  # user: admin
+  # # MAILDEV_WEB_PASS
+  # pass: admin
 
 imagePullSecrets: []
 nameOverride: ""
