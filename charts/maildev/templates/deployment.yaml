@@ -63,9 +63,9 @@ spec:
             value: "{{ .Values.ports.smtp }}"
           - name: MAILDEV_WEB_PORT
             value: "{{ .Values.ports.web }}"
-          - name: MAILDEV_HTTPS
-            value: "{{ .Values.https.enabled }}"
           {{- if .Values.https.enabled }}
+          - name: MAILDEV_HTTPS
+            value: "true"
           - name: MAILDEV_HTTPS_KEY
             value: "{{ .Values.https.key }}"
           - name: MAILDEV_HTTPS_CERT
