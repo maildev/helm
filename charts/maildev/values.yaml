@@ -3,7 +3,9 @@ replicaCount: 1
 image:
   repository: maildev/maildev
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  # Overrides the image tag whose default is the chart appVersion (2.2.1).
+  # To try the 3.x release candidate, set tag: "3.0.0-rc.1" and probePath: "/"
+  # (3.x is a rewrite that removed the /healthz endpoint).
   tag: ""
 
 # Enable verbose logging (--verbose).
@@ -57,6 +59,11 @@ ports:
   smtp: 1025
   # MAILDEV_WEB_PORT
   web: 1080
+
+# HTTP path used by the liveness/readiness probes. maildev 2.x serves
+# "/healthz"; the 3.x rewrite removed it, so set this to "/" when running a
+# 3.x image (see image.tag).
+probePath: /healthz
 
 # MAILDEV_HTTPS
 https:

@@ -109,11 +109,11 @@ spec:
           {{- end }}
           livenessProbe:
             httpGet:
-              path: /healthz
+              path: {{ .Values.probePath }}
               port: {{ .Values.ports.web }}
           readinessProbe:
             httpGet:
-              path: /healthz
+              path: {{ .Values.probePath }}
               port: {{ .Values.ports.web }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
