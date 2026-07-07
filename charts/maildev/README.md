@@ -23,6 +23,8 @@ Not listing here the more general paramaters such as tolerations, nodeSelectors,
 
 | Parameter                            | Description                                                                                       | Default                                     |
 |-------------------------------------:|:--------------------------------------------------------------------------------------------------|:--------------------------------------------|
+| **image.tag**                        | maildev image tag; defaults to the chart appVersion. Set to a 3.x tag to opt in (see below).     | `""` (appVersion)                           |
+| **probePath**                        | HTTP path for the liveness/readiness probes. Use `/` for maildev 3.x (which removed `/healthz`).  | `/healthz`                                  |
 | **verbose**                          | Enable verbose logging, `--verbose`.                                                             | `false`                                     |
 | **extraArgs**                        | Extra CLI args appended after the chart-generated flags, for options not modelled below.         | `[]`                                        |
 | **extraEnv**                         | Extra container env vars (list of `name`/`value` or `valueFrom` entries), for options not modelled below. | `[]`                              |
@@ -44,6 +46,21 @@ Not listing here the more general paramaters such as tolerations, nodeSelectors,
 | **https.cert**                | The file path to the ssl cert file, `MAILDEV_HTTPS_CERT`.                                         |                                             |
 | **incoming.user**             | SMTP user for incoming emails, `MAILDEV_INCOMING_USER`.                                           |                                             |
 | **incoming.pass**             | SMTP password for incoming emails, `MAILDEV_INCOMING_PASS`.                                       |                                             |
+
+## Trying maildev 3.x
+
+The chart defaults to the latest stable maildev (2.x). maildev 3.x is a
+rewrite and currently only ships a release candidate, so it is not the
+default. It removed the `/healthz` endpoint the probes use, so opting in
+requires pointing the probes at `/`:
+
+```yaml
+image:
+  tag: "3.0.0-rc.1"
+probePath: "/"
+```
+
+The chart's flags and env vars are otherwise compatible with 3.x.
 
 ## Test it
 
