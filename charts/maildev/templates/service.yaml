@@ -2,16 +2,20 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "maildev.fullname" . }}-smtp
+  name: {{ include "maildev.fullname" . }}
   labels:
     {{- include "maildev.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - name: smtp-{{ .Values.ports.smtp }}-tcp
+    - name: smtp
       port: {{ .Values.ports.smtp }}
       protocol: TCP
       targetPort: {{ .Values.ports.smtp }}
+    - name: web
+      port: {{ .Values.ports.web }}
+      protocol: TCP
+      targetPort: {{ .Values.ports.web }}
   selector:
     {{- include "maildev.selectorLabels" . | nindent 4 }}
 {{- end }}
