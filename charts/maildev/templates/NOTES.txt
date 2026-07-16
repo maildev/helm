@@ -1,6 +1,6 @@
 {{- if contains "ClusterIP" .Values.service.type }}
 
-  echo http://127.0.0.1:1080/
+  echo {{ if .Values.https.enabled }}https{{ else }}http{{ end }}://127.0.0.1:1080/
   kubectl port-forward $(kubectl get pod -l "app.kubernetes.io/instance=maildev" -o name) 1080:1080
 
 {{- else }}

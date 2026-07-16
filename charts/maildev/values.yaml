@@ -58,13 +58,13 @@ ports:
   # MAILDEV_WEB_PORT
   web: 1080
 
-# MAILDEV_HTTPS
+# MAILDEV_HTTPS - Enable TLS for the web interface
 https:
   enabled: false
-  # MAILDEV_HTTPS_KEY
-  # key:
-  # MAILDEV_HTTPS_KEY
-  # cert:
+  # Name of an existing Kubernetes TLS Secret to use for HTTPS.
+  # The secret must be of type kubernetes.io/tls and contain tls.crt and tls.key keys.
+  # Required when enabled: true
+  # secretName: my-tls-secret
 
 # Web interface
 web:
