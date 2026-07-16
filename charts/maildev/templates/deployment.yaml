@@ -70,9 +70,9 @@ spec:
           - name: MAILDEV_HTTPS
             value: "true"
           - name: MAILDEV_HTTPS_KEY
-            value: "{{ .Values.https.key }}"
+            value: "/etc/ssl/private/tls.key"
           - name: MAILDEV_HTTPS_CERT
-            value:  "{{ .Values.https.cert }}"
+            value: "/etc/ssl/certs/tls.crt"
           {{- end }}
           {{- if .Values.outgoingRelay.host }}
           - name: MAILDEV_OUTGOING_HOST
@@ -117,16 +117,38 @@ spec:
               port: {{ .Values.ports.web }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- if .Values.outgoingRelay.autoRelay.enabled }}
           volumeMounts:
+          {{- if .Values.outgoingRelay.autoRelay.enabled }}
           - name: auto-relay-rules
             mountPath: /etc/maildev
           {{- end }}
-      {{- if .Values.outgoingRelay.autoRelay.enabled }}
+          {{- if .Values.https.enabled }}
+          - name: tls-certs
+            mountPath: /etc/ssl/certs
+            readOnly: true
+          - name: tls-key
+            mountPath: /etc/ssl/private
+            readOnly: true
+          {{- end }}
       volumes:
+      {{- if .Values.outgoingRelay.autoRelay.enabled }}
       - name: auto-relay-rules
         configMap:
           name: {{ include "maildev.fullname" . }}-relay-rules
+      {{- end }}
+      {{- if .Values.https.enabled }}
+      - name: tls-certs
+        secret:
+          secretName: {{ .Values.https.secretName }}
+          items:
+          - key: tls.crt
+            path: tls.crt
+      - name: tls-key
+        secret:
+          secretName: {{ .Values.https.secretName }}
+          items:
+          - key: tls.key
+            path: tls.key
       {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:

@@ -39,11 +39,31 @@ Not listing here the more general paramaters such as tolerations, nodeSelectors,
 | **web.disable**                      | Disable Web interface, `--disable-web`.                                                           | `false`                                     |
 | **web.user**                         | Web interface user, `MAILDEV_WEB_USER`. Only set when defined.                                    | ``                                          |
 | **web.pass**                         | Web interface password, `MAILDEV_WEB_PASS`. Only set when defined.                               | ``                                          |
-| **https.enabled**             | Switch from http to https protocol, `MAILDEV_HTTPS`.                                              | `false`                                     |
-| **https.key**                 | The file path to the ssl private key, `MAILDEV_HTTPS_KEY`.                                        |                                             |
-| **https.cert**                | The file path to the ssl cert file, `MAILDEV_HTTPS_CERT`.                                         |                                             |
+| **https.enabled**             | Enable HTTPS for the web interface, `MAILDEV_HTTPS`.                                              | `false`                                     |
+| **https.secretName**          | Name of an existing Kubernetes TLS Secret to use for HTTPS (required when enabled: true).         | ``                                          |
 | **incoming.user**             | SMTP user for incoming emails, `MAILDEV_INCOMING_USER`.                                           |                                             |
 | **incoming.pass**             | SMTP password for incoming emails, `MAILDEV_INCOMING_PASS`.                                       |                                             |
+
+## Enabling HTTPS
+
+To enable HTTPS for the web interface, you must first create a Kubernetes TLS Secret:
+
+```bash
+kubectl create secret tls my-maildev-tls \
+  --cert=path/to/tls.crt \
+  --key=path/to/tls.key \
+  -n your-namespace
+```
+
+Then enable HTTPS in your Helm values:
+
+```yaml
+https:
+  enabled: true
+  secretName: my-maildev-tls
+```
+
+The TLS certificate and private key will be automatically mounted into the MailDev pod at the expected paths.
 
 ## Test it
 
